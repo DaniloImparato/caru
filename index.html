@@ -123,7 +123,7 @@
         /*justify-content: space-between;*/
     }
     .card {
-        width: 100%;
+        /*width: 100%;*/
         padding: 1.5em;
         padding-bottom: 1em;
         background-color: #fff;
@@ -132,6 +132,7 @@
         white-space: nowrap;
         box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.15);
         cursor: pointer;
+        display: table-cell;
     }
     ul.cards li:not(:last-child) {
     padding-right: 20px;
@@ -195,6 +196,11 @@
     }
     h1 {
         margin-bottom: 20px;
+    }
+    .cards-container {
+        width: 100%;
+        display: table;
+        table-layout: fixed;
     }
   </style>
   </head>
@@ -265,10 +271,8 @@
         <h1>Olá, Danilo!</h1>
 
             <!-- cards row -->
-            <div class="row">
+            <div class="cards-container">
                 <!-- cards -->
-                <ul class="cards">
-                    <li>
                         <div class="card">
                             <div class="card-id">
                                 <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>123</p>
@@ -279,8 +283,6 @@
                             </div>
                             <div class="stripe"></div>
                         </div>
-                    </li>
-                    <li>
                         <div class="card available">
                             <div class="card-id">
                                 <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
@@ -292,8 +294,6 @@
                             </div>
                             <div class="stripe"></div>
                         </div>
-                    </li>
-                    <li>
                         <div class="card return">
                             <div class="card-id">
                                 <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>666</p>
@@ -303,8 +303,6 @@
                             </div>
                             <div class="stripe"></div>
                         </div>
-                    </li>
-                </ul>
                 <!-- end cards -->
             </div>
             <!-- end cards row -->
