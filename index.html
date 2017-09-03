@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>COCARU - Controle de Cartões RU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+  <style>
+    body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #E0E0E0;
+    }
+    .form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+    margin-bottom: 10px;
+    }
+    .form-signin .checkbox {
+    font-weight: normal;
+    }
+    .form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+    }
+    .form-signin .form-control:focus {
+    z-index: 2;
+    }
+    .form-signin input {
+        margin-bottom: 10px;
+    }
+    .tab-content.form-signin{
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-top:0;
+    }
+    img.logo {
+        display: block;
+        margin: auto;
+        width: 300px;
+        margin-bottom: 20px;
+    }
+    .tab-content form-signin {
+        background-color: #FFF;
+        border: 1px solid #DDD;
+        border-top: none;
+    }
+    fieldset.form-group {
+        margin-top:10px;
+        margin-bottom:0px;
+    }
+    .no-padding {
+        padding: 0;
+    }
+    form small {
+        display: block;
+        margin-bottom: 10px;
+    }
+    .container .alert-row:first-of-type [class*="col-"]{
+        padding-bottom:0px;
+    }
+    .container .alert-row {
+        display: none;
+    }
+    #login-container, #info-container {
+        display: none;
+    }
+    .container [class*="col-"] {
+        padding: 1.5em;
+        background-color: #fff;
+    }
+    .alert:last-of-type {
+        margin-bottom: 0px;
+    }
+    .alert {
+        display: none;
+    }
+    /* nav fix */
+    .nav-tabs>li {
+        height:62px;
+    }
+    .nav-tabs>li>a, .nav-tabs>li>a>div {
+        height:100%;
+        display:table;
+    }
+    .nav-tabs>li>a span {
+        display:table-cell;
+        vertical-align:middle;
+    }
+    li[role="presentation"] a {
+        width: 100%;
+    }
+    table {
+        width: 100%;
+        text-align: center;
+    }
+    ul.cards {
+        padding: 0;
+        list-style: none;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -moz-flex;
+        display: -webkit-flex;
+        display: flex;
+        /*justify-content: space-between;*/
+    }
+    .card {
+        width: 100%;
+        padding: 1.5em;
+        padding-bottom: 1em;
+        background-color: #fff;
+        border-radius: 10px;
+        color: #424242;
+        white-space: nowrap;
+        box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.15);
+        cursor: pointer;
+    }
+    ul.cards li:not(:last-child) {
+    padding-right: 20px;
+    }
+    .row {
+        margin: 0px;
+    }
+    ul.cards li div p {
+        display: inline-block;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    /*.card hr {
+        margin: 0px;
+        margin-left: -1.5em;
+        margin-right: -1.5em;
+        border-top: 15px solid #424242;
+    }
+    .available, .available hr {
+        color: #1B5E20;
+        border-color: #1B5E20;
+    }
+    .return, .return hr {
+        color: #BF360C;
+        border-color: #BF360C;
+    }*/
+    .return, .return .stripe {
+        color: #BF360C;
+        border-color: #BF360C;
+    }
+    .return .stripe::before {
+        content: 'Retornar';
+    }
+    .available, .available .stripe {
+        color: #1B5E20;
+        border-color: #1B5E20;
+    }
+    .available .stripe::before {
+        content: 'Disponível';
+    }
+    .available .glyphicon-user + p::before {
+        content: '____';
+    }
+    .stripe::before {
+        color: rgba(255, 255, 255, 0.8);
+        content: 'Indisponível';
+    }
+    div.logout {
+        text-align: center;
+    }
+    .container div.row {
+        margin-bottom: 10px;
+    }
+    .stripe {
+        margin-left: -1.5em;
+        margin-right: -1.5em;
+        height:20px;
+        border-bottom: 20px solid #424242;
+        text-align: center;
+        color: #fff;
+    }
+    h1 {
+        margin-bottom: 20px;
+    }
+  </style>
+  </head>
+  <body>
+    
+    <div class="container">
+        <!--<a href="../">-->
+            <img class="logo" src="icbp.png"/>
+        <!--</a>-->
+    </div>
+
+    <div class="container" id="login-container">
+
+        <div class="row">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs form-signin no-padding nav-justified" role="tablist" style="padding-bottom:0px;">
+                    <li role="presentation" class="active"><a href="#signin" aria-controls="home" role="tab" data-toggle="tab"><h4>Entrar</h4></a></li>
+                    <li role="presentation"><a href="#register" aria-controls="register" role="tab" data-toggle="tab"><h4>Registrar</h4></a></li>
+                    <li role="presentation"><a href="#reset" aria-controls="reset" role="tab" data-toggle="tab"><h4>Recuperar senha</h4></a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content form-signin">
+
+                    <div role="tabpanel" class="tab-pane" id="register">
+                        <div id="registerForm" class="form-signin" name="register">
+                            <label for="inputName" class="sr-only">Nome</label>
+                            <input type="text" id="inputNameRegister" name="inputNameRegister" class="form-control" placeholder="Nome" required autofocus="">
+                            <label for="inputName" class="sr-only">Nome</label>
+                            <input type="email" id="inputEmailRegister" name="inputEmailRegister" class="form-control" placeholder="Email" required autofocus="">
+                            <label for="inputPassword" class="sr-only">Senha</label>
+                            <input type="password" id="inputPasswordRegister" name="inputPasswordRegister" class="form-control" placeholder="Senha" required>
+				            <label for="confirmPassword" class="sr-only">Confirmar senha</label>
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirmar senha" required>
+                            <small id="passwordHelp" class="form-text text-muted">No mínimo 6 caracteres</small>
+                            <button id="registerBtn" class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane active" id="signin">
+                        <div id="signInForm" class="form-signin" name="signin">
+                            <label for="inputEmail" class="sr-only">Email</label>
+                            <input type="email" id="inputEmailSignIn" name="inputEmailSignIn" class="form-control" placeholder="Email" required autofocus>
+                            <label for="inputPassword" class="sr-only">Senha</label>
+                            <input type="password" id="inputPasswordSignIn" name="inputPasswordSignIn" class="form-control" placeholder="Senha" required>
+                            <button id="signinBtn" class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="reset">
+                        <div id="signInForm" class="form-signin" name="reset">
+                            <label for="inputEmail" class="sr-only">Email</label>
+                            <input type="email" id="inputEmailReset" name="inputEmailReset" class="form-control" placeholder="Email" required autofocus>
+                            <button id="resetBtn" class="btn btn-lg btn-primary btn-block" type="submit">Solicitar mudança</button>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--                -->
+    <!-- info-container -->
+    <!-- <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2"> -->
+    <div class="container" id="info-container">
+        
+        <h1>Olá, Danilo!</h1>
+
+            <!-- cards row -->
+            <div class="row">
+                <!-- cards -->
+                <ul class="cards">
+                    <li>
+                        <div class="card">
+                            <div class="card-id">
+                                <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>123</p>
+                            </div>
+                            <div class="holder">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <p>Júlia</p>
+                            </div>
+                            <div class="stripe"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="card available">
+                            <div class="card-id">
+                                <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+                                <p>2469</p>
+                            </div>
+                            <div class="holder">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <p></p>
+                            </div>
+                            <div class="stripe"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="card return">
+                            <div class="card-id">
+                                <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>666</p>
+                            </div>
+                            <div class="holder">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <p>Danilo</p>
+                            </div>
+                            <div class="stripe"></div>
+                        </div>
+                    </li>
+                </ul>
+                <!-- end cards -->
+            </div>
+            <!-- end cards row -->
+
+            <!-- alert div -->
+            <div class="row alert-row">
+                <div class="alert alert-warning" role="alert"><strong>Warning:</strong> Pending payment</div>
+                <div id="update-success" class="alert alert-success" role="alert">Information updated successfully</div>
+                <div id="payment-success" class="alert alert-success" role="alert">Payment confirmed!</div>
+                <div class="alert alert-danger" role="alert"><strong>Error:</strong> Something went wrong</div>
+            </div>
+            <!-- end alert div -->
+
+            <!-- log div -->
+            <div class="row">
+                <div class="col-md-12">
+                    eai essa galera
+                </div>
+            </div>
+            <!-- end log div -->
+
+            <div class="logout">
+                <button type="button" class="btn btn-danger">Sair</button>
+            </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCXAx7F_pWgNkfBqMIr3wzrUDEVZVBORkM",
+        authDomain: "caru-47212.firebaseapp.com",
+        databaseURL: "https://caru-47212.firebaseio.com",
+        projectId: "caru-47212",
+        storageBucket: "caru-47212.appspot.com",
+        messagingSenderId: "293652356463"
+    };
+    firebase.initializeApp(config);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(function() {
+
+        var newUser = false;
+
+        $('#data-form').submit(function(){
+            var name = $(this).find('#inputName').val();
+            var institution = $(this).find('#inputInstitution').val();
+            var occupation = $(this).find('#inputOccupation').val();
+            var enrollment = $(this).find('#inputEnrollment').val();
+            var oral = $(this).find('#inputOral').prop('checked');
+            var poster = $(this).find('#inputPoster').prop('checked');
+
+            setUserData({
+                name: name,
+                institution: institution,
+                enrollment: enrollment,
+                oral: oral,
+                poster: poster
+            });
+        });
+
+        $('#registerBtn').click(function(){
+            var email = $('#inputEmailRegister').val();
+            var password = $('#inputPasswordRegister').val();
+            firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
+                newUser = true;
+            }).catch(function(error) {
+                console.log(error.message);
+            });
+        });
+
+        $('#signinBtn').click(function(){
+            var email = $('#inputEmailSignIn').val();
+            var password = $('#inputPasswordSignIn').val();
+            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                console.log(error.message);
+                alert(error.message);
+            });
+        });
+
+        $('#resetBtn').click(function(){
+            var email = $('#inputEmailReset').val();
+            firebase.auth().sendPasswordResetEmail(email).then(function() {
+                alert("Password reset email sent.");
+            }, function(error) {
+                alert(error);
+            });
+        });
+
+        $('.logout').click(function(){
+            if (confirm("Você está prestes a sair do sistema."))
+                firebase.auth().signOut();
+        });
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+
+                firebase.database().ref('users/' + user.uid).on('value', function(snapshot) {
+                    if(snapshot.val() !== null)
+                        console.log(snapshot.val());
+                });
+
+                firebase.database().ref('cards').on('value', function(snapshot) {
+                    if(snapshot.val() !== null)
+                        drawCards(snapshot.val(), user);
+                });
+
+                if(newUser)
+                    setUserName($('#inputNameRegister').val(), user);
+
+                signIn();
+
+            } else {
+                signOut();
+            }
+        });
+
+        function drawCards(cards, user) {
+            // $('ul.cards').html('');
+
+            $.each(cards, function(index, card) {
+                $('ul.cards')
+                .append($("<li />"))
+                .append('<div class="card'+ (card.userid == 0 ? ' available' : (card.userid == user.uid ? ' return' : '')) +'"/>');
+            });
+        }
+
+        function setUserName(name, user) {
+            if (user != null) {
+                firebase.database().ref('users/' + user.uid + '/profile').set({"name": name})
+                .then(function() {
+                    console.log('updated name');
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    errorAlert();
+                });
+            }
+        }
+
+        function signIn(){
+            $('#login-container').hide();
+            $('#info-container').show();
+        }
+
+        function signOut(){
+            $('#info-container').hide();
+            $('#login-container').show();
+            $('#login-container form').trigger('reset');
+        }
+
+        function updateProfileFields(user){
+            firebase.database().ref('users/' + user.uid).on('value', function(snapshot) {
+                if(snapshot.val() !== null)
+                    console.log(snapshot.val());
+            });
+        }
+
+        function updatePaymentAlert(snapshot){
+            // payment alert
+            if(snapshot != 1){
+                $("#payment-success").hide();
+                $(".alert-warning").slideDown("fast");
+            }
+            else {
+                $(".alert-warning").hide();
+                $("#payment-success").slideDown("fast");
+            }
+        }
+
+        function successAlert() {
+            $("#update-success").slideDown("fast");
+
+            setTimeout(function() {
+                $("#update-success").slideUp(500, function() {
+                    $(this).hide();
+                });
+            }, 2500);
+        }
+
+        function errorAlert() {
+            $(".alert-danger").slideDown("fast");
+
+            setTimeout(function() {
+                $(".alert-danger").slideUp(500, function() {
+                    $(this).hide();
+                });
+            }, 2500);
+        }
+
+    });
+
+    </script>
+  </body>
+</html>
