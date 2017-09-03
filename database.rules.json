@@ -1,6 +1,20 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "cards": {
+      ".read": "auth != null",
+      "$card":{
+          ".write": "(root.child('users/' + auth.uid + '/verified').val() == true) && ((data.child('userid').val() == auth.uid) || (data.child('userid').val() == 0)) && newData.hasChildren(['userid']) && ((newData.child('userid').val() == auth.uid) || (newData.child('userid').val() == 0))"
+      }
+    },
+    "users": {
+      "$user": {
+        ".read": "auth != null",
+        ".write": "auth.uid != $user"
+      }
+    },
+    "log": {
+      ".read": false,
+			".write": false
+    }
   }
 }

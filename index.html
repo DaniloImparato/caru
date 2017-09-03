@@ -132,15 +132,15 @@
         white-space: nowrap;
         box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.15);
         cursor: pointer;
-        display: table-cell;
     }
-    ul.cards li:not(:last-child) {
-    padding-right: 20px;
+    .card-wrapper:not(:last-child) {
+        padding-right: 20px;
+        display: table-cell;
     }
     .row {
         margin: 0px;
     }
-    ul.cards li div p {
+    .card p {
         display: inline-block;
         margin-left: 5px;
         margin-right: 5px;
@@ -159,11 +159,11 @@
         color: #BF360C;
         border-color: #BF360C;
     }*/
-    .return, .return .stripe {
+    .returnable, .returnable .stripe {
         color: #BF360C;
         border-color: #BF360C;
     }
-    .return .stripe::before {
+    .returnable .stripe::before {
         content: 'Retornar';
     }
     .available, .available .stripe {
@@ -197,10 +197,11 @@
     h1 {
         margin-bottom: 20px;
     }
-    .cards-container {
+    #cards-container {
         width: 100%;
         display: table;
         table-layout: fixed;
+        margin-bottom: 20px;
     }
   </style>
   </head>
@@ -268,41 +269,52 @@
     <!-- <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2"> -->
     <div class="container" id="info-container">
         
-        <h1>Olá, Danilo!</h1>
+        <h1 id="hello"></h1>
 
             <!-- cards row -->
-            <div class="cards-container">
+            <div id="cards-container">
+
                 <!-- cards -->
-                        <div class="card">
-                            <div class="card-id">
-                                <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>123</p>
-                            </div>
-                            <div class="holder">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                <p>Júlia</p>
-                            </div>
-                            <div class="stripe"></div>
+                <!--
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="card-id">
+                            <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>123</p>
                         </div>
-                        <div class="card available">
-                            <div class="card-id">
-                                <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
-                                <p>2469</p>
-                            </div>
-                            <div class="holder">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                <p></p>
-                            </div>
-                            <div class="stripe"></div>
+                        <div class="holder">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <p>Júlia</p>
                         </div>
-                        <div class="card return">
-                            <div class="card-id">
-                                <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>666</p>
-                            </div>
-                            <div class="holder">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <p>Danilo</p>
-                            </div>
-                            <div class="stripe"></div>
+                        <div class="stripe"></div>
+                    </div>
+                </div>
+
+                <div class="card-wrapper">
+                    <div class="card available">
+                        <div class="card-id">
+                            <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
+                            <p>2469</p>
                         </div>
+                        <div class="holder">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <p></p>
+                        </div>
+                        <div class="stripe"></div>
+                    </div>
+                </div>
+
+                <div class="card-wrapper">
+                    <div class="card return">
+                        <div class="card-id">
+                            <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>666</p>
+                        </div>
+                        <div class="holder">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <p>Danilo</p>
+                        </div>
+                        <div class="stripe"></div>
+                    </div>
+                </div>
+                -->
                 <!-- end cards -->
             </div>
             <!-- end cards row -->
@@ -346,6 +358,9 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
+    var users = {};
+    var cards = {};
+
     $(document).ready(function() {
 
         var newUser = false;
@@ -403,9 +418,12 @@
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
 
-                firebase.database().ref('users/' + user.uid).on('value', function(snapshot) {
-                    if(snapshot.val() !== null)
+                firebase.database().ref('users').once('value').then(function(snapshot) {
+                    if(snapshot.val() !== null){
                         console.log(snapshot.val());
+                        users = snapshot.val();
+                        $('#hello').text('Olá, '+ users[user.uid].name +'!');
+                    }
                 });
 
                 firebase.database().ref('cards').on('value', function(snapshot) {
@@ -424,18 +442,64 @@
         });
 
         function drawCards(cards, user) {
-            // $('ul.cards').html('');
+            $('#cards-container').html('');
+
+            /*
+            <div class="card-wrapper">
+                <div class="card">
+                    <div class="card-id">
+                        <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>123</p>
+                    </div>
+                    <div class="holder">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        <p>Júlia</p>
+                    </div>
+                    <div class="stripe"></div>
+                </div>
+            </div>
+            */
 
             $.each(cards, function(index, card) {
-                $('ul.cards')
-                .append($("<li />"))
-                .append('<div class="card'+ (card.userid == 0 ? ' available' : (card.userid == user.uid ? ' return' : '')) +'"/>');
+                $('#cards-container').append(
+                    '<div class="card-wrapper">'+
+                        '<div id="' + index + '" class="card'+ (card.userid == 0 ? ' available' : (card.userid == user.uid ? ' returnable' : '')) + '">'+
+                            '<div class="card-id">'+
+                                '<span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>'+
+                                '<p>'+index+'</p>'+
+                            '</div>'+
+                            '<div class="holder">'+
+                                '<span class="glyphicon glyphicon-user" aria-hidden="true"></span>'+
+                                '<p>'+ (card.userid == 0 ? '' : users[card.userid].name) +'</p>'+
+                            '</div>'+
+                            '<div class="stripe"></div>'+
+                        '</div>'+
+                    '</div>'
+            );
+                // $('.cards-container')
+                // .append($('<div class="card-wrapper" />')
+                // .append($('<div class="card'+ (card.userid == 0 ? ' available' : (card.userid == user.uid ? ' return' : '')) +'"/>'))
+                // .append($('<div class="card-id"/>').append($())));
+            });
+            
+            $('.card').on('click', function(){
+
+                var available = $(this).hasClass("available");
+                var returnable = $(this).hasClass("returnable");
+
+                if (available || returnable){
+                    var update = {}
+                    update['cards/' + this.id] = {"userid": (available ? user.uid : 0)}
+
+                    console.log(update);
+
+                    firebase.database().ref().update(update);
+                }
             });
         }
 
         function setUserName(name, user) {
             if (user != null) {
-                firebase.database().ref('users/' + user.uid + '/profile').set({"name": name})
+                firebase.database().ref('users/' + user.uid + '/name').set('test')
                 .then(function() {
                     console.log('updated name');
                 })
@@ -443,6 +507,10 @@
                     console.log(error);
                     errorAlert();
                 });
+                // var update = {}
+                // update['users/' + user.uid + '/name'] = name;
+
+                // firebase.database().ref().update(update);
             }
         }
 
