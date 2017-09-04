@@ -393,8 +393,10 @@
                         drawLog(snapshot.val());
                 });
 
-                if(newUser)
+                if(newUser){
                     setUserName($('#inputNameRegister').val(), user);
+                    newUser = false;
+                }
 
                 signIn();
 
