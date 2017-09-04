@@ -13,7 +13,7 @@
           ".write": false
         },
         "name": {
-          ".write": "auth.uid != $user"
+          ".write": "auth.uid == $user"
         }
       }
     },

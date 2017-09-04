@@ -229,7 +229,9 @@
     
     <div class="container">
         <!--<a href="../">-->
-            <img class="logo" src="icbp.png"/>
+            <!--
+                <img class="logo" src="icbp.png"/>
+            -->
         <!--</a>-->
     </div>
 
@@ -340,6 +342,7 @@
             firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
                 newUser = true;
             }).catch(function(error) {
+                alert(error.message);
                 console.log(error.message);
             });
         });
@@ -375,6 +378,7 @@
                 firebase.database().ref('users').once('value').then(function(snapshot) {
                     if(snapshot.val() !== null){
                         users = snapshot.val();
+                        console.log(user.uid);
                         $('#hello').text('Olá, '+ users[user.uid].name +'!');
                     }
                 });
@@ -455,7 +459,6 @@
                 })
                 .catch(function(error) {
                     console.log(error);
-                    errorAlert();
                 });
             }
         }
