@@ -7,13 +7,18 @@
       }
     },
     "users": {
+      ".read": "auth != null",
       "$user": {
-        ".read": "auth != null",
-        ".write": "auth.uid != $user"
+        "verified": {
+          ".write": false
+        },
+        "name": {
+          ".write": "auth.uid != $user"
+        }
       }
     },
     "log": {
-      ".read": false,
+      ".read": "auth != null",
 			".write": false
     }
   }

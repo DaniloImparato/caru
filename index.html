@@ -293,60 +293,8 @@
 
             <!-- cards row -->
             <div id="cards-container">
-
-                <!-- cards -->
-                <!--
-                <div class="card-wrapper">
-                    <div class="card">
-                        <div class="card-id">
-                            <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>123</p>
-                        </div>
-                        <div class="holder">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                            <p>Júlia</p>
-                        </div>
-                        <div class="stripe"></div>
-                    </div>
-                </div>
-
-                <div class="card-wrapper">
-                    <div class="card available">
-                        <div class="card-id">
-                            <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
-                            <p>2469</p>
-                        </div>
-                        <div class="holder">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                            <p></p>
-                        </div>
-                        <div class="stripe"></div>
-                    </div>
-                </div>
-
-                <div class="card-wrapper">
-                    <div class="card return">
-                        <div class="card-id">
-                            <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> <p>666</p>
-                        </div>
-                        <div class="holder">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <p>Danilo</p>
-                        </div>
-                        <div class="stripe"></div>
-                    </div>
-                </div>
-                -->
-                <!-- end cards -->
             </div>
             <!-- end cards row -->
-
-            <!-- alert div -->
-            <div class="row alert-row">
-                <div class="alert alert-warning" role="alert"><strong>Warning:</strong> Pending payment</div>
-                <div id="update-success" class="alert alert-success" role="alert">Information updated successfully</div>
-                <div id="payment-success" class="alert alert-success" role="alert">Payment confirmed!</div>
-                <div class="alert alert-danger" role="alert"><strong>Error:</strong> Something went wrong</div>
-            </div>
-            <!-- end alert div -->
 
             <!-- log div -->
             <div class="row">
@@ -385,23 +333,6 @@
     $(document).ready(function() {
 
         var newUser = false;
-
-        $('#data-form').submit(function(){
-            var name = $(this).find('#inputName').val();
-            var institution = $(this).find('#inputInstitution').val();
-            var occupation = $(this).find('#inputOccupation').val();
-            var enrollment = $(this).find('#inputEnrollment').val();
-            var oral = $(this).find('#inputOral').prop('checked');
-            var poster = $(this).find('#inputPoster').prop('checked');
-
-            setUserData({
-                name: name,
-                institution: institution,
-                enrollment: enrollment,
-                oral: oral,
-                poster: poster
-            });
-        });
 
         $('#registerBtn').click(function(){
             var email = $('#inputEmailRegister').val();
@@ -516,7 +447,7 @@
 
         function setUserName(name, user) {
             if (user != null) {
-                firebase.database().ref('users/' + user.uid + '/name').set('test')
+                firebase.database().ref('users/' + user.uid + '/name').set($('#inputNameRegister').val())
                 .then(function() {
                     console.log('updated name');
                 })
@@ -524,10 +455,6 @@
                     console.log(error);
                     errorAlert();
                 });
-                // var update = {}
-                // update['users/' + user.uid + '/name'] = name;
-
-                // firebase.database().ref().update(update);
             }
         }
 
@@ -547,38 +474,6 @@
                 if(snapshot.val() !== null)
                     console.log(snapshot.val());
             });
-        }
-
-        function updatePaymentAlert(snapshot){
-            // payment alert
-            if(snapshot != 1){
-                $("#payment-success").hide();
-                $(".alert-warning").slideDown("fast");
-            }
-            else {
-                $(".alert-warning").hide();
-                $("#payment-success").slideDown("fast");
-            }
-        }
-
-        function successAlert() {
-            $("#update-success").slideDown("fast");
-
-            setTimeout(function() {
-                $("#update-success").slideUp(500, function() {
-                    $(this).hide();
-                });
-            }, 2500);
-        }
-
-        function errorAlert() {
-            $(".alert-danger").slideDown("fast");
-
-            setTimeout(function() {
-                $(".alert-danger").slideUp(500, function() {
-                    $(this).hide();
-                });
-            }, 2500);
         }
 
     });
