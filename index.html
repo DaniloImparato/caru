@@ -375,7 +375,7 @@
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
 
-                firebase.database().ref('users').once('value').then(function(snapshot) {
+                firebase.database().ref('users').on('value', function(snapshot) {
                     if(snapshot.val() !== null){
                         users = snapshot.val();
                         console.log(user.uid);
@@ -435,8 +435,6 @@
                     var update = {}
                     update['cards/' + this.id] = {"userid": (available ? user.uid : 0)}
 
-                    console.log(update);
-
                     firebase.database().ref().update(update);
                 }
             });
@@ -444,6 +442,8 @@
 
         function drawLog(logs) {
             $('#log-container').html('');
+
+            console.log(users);
 
             $.each(logs, function(index, log) {
                 $('#log-container').append($('<p />').text(
