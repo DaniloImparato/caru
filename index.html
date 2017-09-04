@@ -247,8 +247,18 @@
                 <!-- Tab panes -->
                 <div class="tab-content form-signin">
 
+                    <div role="tabpanel" class="tab-pane active" id="signin">
+                        <form id="signInForm" class="form-signin" name="signin">
+                            <label for="inputEmail" class="sr-only">Email</label>
+                            <input type="email" id="inputEmailSignIn" name="inputEmailSignIn" class="form-control" placeholder="Email" required autofocus>
+                            <label for="inputPassword" class="sr-only">Senha</label>
+                            <input type="password" id="inputPasswordSignIn" name="inputPasswordSignIn" class="form-control" placeholder="Senha" required>
+                            <button id="signinBtn" class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+                        </form>
+                    </div>
+
                     <div role="tabpanel" class="tab-pane" id="register">
-                        <div id="registerForm" class="form-signin" name="register">
+                        <form id="registerForm" class="form-signin" name="register">
                             <label for="inputName" class="sr-only">Nome</label>
                             <input type="text" id="inputNameRegister" name="inputNameRegister" class="form-control" placeholder="Nome" required autofocus="">
                             <label for="inputName" class="sr-only">Nome</label>
@@ -259,25 +269,15 @@
                             <input type="password" id="confirmPassword" class="form-control" placeholder="Confirmar senha" required>
                             <small id="passwordHelp" class="form-text text-muted">No mínimo 6 caracteres</small>
                             <button id="registerBtn" class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
-                        </div>
-                    </div>
-
-                    <div role="tabpanel" class="tab-pane active" id="signin">
-                        <div id="signInForm" class="form-signin" name="signin">
-                            <label for="inputEmail" class="sr-only">Email</label>
-                            <input type="email" id="inputEmailSignIn" name="inputEmailSignIn" class="form-control" placeholder="Email" required autofocus>
-                            <label for="inputPassword" class="sr-only">Senha</label>
-                            <input type="password" id="inputPasswordSignIn" name="inputPasswordSignIn" class="form-control" placeholder="Senha" required>
-                            <button id="signinBtn" class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-                        </div>
+                        </form>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="reset">
-                        <div id="signInForm" class="form-signin" name="reset">
+                        <form id="resetForm" class="form-signin" name="reset">
                             <label for="inputEmail" class="sr-only">Email</label>
                             <input type="email" id="inputEmailReset" name="inputEmailReset" class="form-control" placeholder="Email" required autofocus>
                             <button id="resetBtn" class="btn btn-lg btn-primary btn-block" type="submit">Solicitar mudança</button>
-                        </div>
+                        </form>
                     </div>
 
             </div>
@@ -299,7 +299,6 @@
             <!-- log div -->
             <div class="row">
                 <div id="log-container" class="col-md-12">
-                    eai essa galera
                 </div>
             </div>
             <!-- end log div -->
@@ -334,7 +333,8 @@
 
         var newUser = false;
 
-        $('#registerBtn').click(function(){
+        $('#registerForm').submit(function(e){
+            e.preventDefault();
             var email = $('#inputEmailRegister').val();
             var password = $('#inputPasswordRegister').val();
             firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
@@ -344,7 +344,8 @@
             });
         });
 
-        $('#signinBtn').click(function(){
+        $('#signInForm').submit(function(e){
+            e.preventDefault();
             var email = $('#inputEmailSignIn').val();
             var password = $('#inputPasswordSignIn').val();
             firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
@@ -353,7 +354,8 @@
             });
         });
 
-        $('#resetBtn').click(function(){
+        $('#resetForm').click(function(e){
+            e.preventDefault();
             var email = $('#inputEmailReset').val();
             firebase.auth().sendPasswordResetEmail(email).then(function() {
                 alert("Password reset email sent.");
