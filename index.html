@@ -130,18 +130,7 @@
         width: 100%;
         text-align: center;
     }
-    ul.cards {
-        padding: 0;
-        list-style: none;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -moz-flex;
-        display: -webkit-flex;
-        display: flex;
-        /*justify-content: space-between;*/
-    }
     .card {
-        /*width: 100%;*/
         padding: 1.5em;
         padding-bottom: 1em;
         background-color: #fff;
@@ -151,8 +140,17 @@
         box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.15);
         cursor: pointer;
     }
-    .card-wrapper:not(:last-child) {
-        padding-right: 20px;
+    .card-wrapper:not(:last-child):not(:first-child) {
+        padding-left: 6.66px;
+        padding-right: 6.66px;
+        display: table-cell;
+    }
+    .card-wrapper:first-child {
+        padding-right: 13.33px;
+        display: table-cell;
+    }
+    .card-wrapper:last-child {
+        padding-left: 13.33px;
         display: table-cell;
     }
     .row {
@@ -163,20 +161,6 @@
         margin-left: 5px;
         margin-right: 5px;
     }
-    /*.card hr {
-        margin: 0px;
-        margin-left: -1.5em;
-        margin-right: -1.5em;
-        border-top: 15px solid #424242;
-    }
-    .available, .available hr {
-        color: #1B5E20;
-        border-color: #1B5E20;
-    }
-    .return, .return hr {
-        color: #BF360C;
-        border-color: #BF360C;
-    }*/
     .returnable, .returnable .stripe {
         color: #BF360C;
         border-color: #BF360C;
@@ -192,7 +176,7 @@
         content: 'Disponível';
     }
     .available .glyphicon-user + p::before {
-        content: '____';
+        content: '______';
     }
     .stripe::before {
         color: rgba(255, 255, 255, 0.8);
