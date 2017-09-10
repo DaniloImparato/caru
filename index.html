@@ -186,9 +186,6 @@
     div.logout {
         text-align: center;
     }
-    .container div.row {
-        margin-bottom: 10px;
-    }
     .stripe {
         margin-left: -1.5em;
         margin-right: -1.5em;
@@ -209,6 +206,8 @@
     #logs-container {
         background-color: #fff;
         padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.15);
     }
     table th {
         text-align: center;
@@ -237,6 +236,18 @@
     }
     .dataTables_wrapper .row {
         display: flex;
+    }
+    @media only screen and (max-width : 480px) {
+        table {
+            font-size: 0.75em;
+        }
+    }
+    .hello h1 {
+        float: left;
+    }
+    .hello button {
+        float: right;
+        margin-top: 20px;
     }
   </style>
   </head>
@@ -303,23 +314,22 @@
     <!-- <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2"> -->
     <div class="container" id="info-container">
         
-        <h1 id="hello"></h1>
+        <div class="row hello">
+            <h1 id="hello"></h1>
+            <button id="logout" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Sair</button>
+        </div>
 
-            <!-- cards row -->
-            <div id="cards-container">
-            </div>
-            <!-- end cards row -->
+        <!-- cards row -->
+        <div id="cards-container">
+        </div>
+        <!-- end cards row -->
 
-            <!-- log div -->
-            <div id="logs-container">
-                <table id="myTable" class="table diplay cell-border" cellspacing="0" width="100%">
-                </table>
-            </div>
-            <!-- end log div -->
-
-            <div class="logout">
-                <button type="button" class="btn btn-danger">Sair</button>
-            </div>
+        <!-- log div -->
+        <div id="logs-container">
+            <table id="myTable" class="table diplay cell-border" cellspacing="0" width="100%">
+            </table>
+        </div>
+        <!-- end log div -->
 
     </div>
 
@@ -417,7 +427,7 @@
             });
         });
 
-        $('.logout').click(function(){
+        $('#logout').click(function(){
             if (confirm("Você está prestes a sair do sistema."))
                 firebase.auth().signOut();
         });
