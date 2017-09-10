@@ -387,7 +387,7 @@
                         drawCards(snapshot.val(), user);
                 });
 
-                firebase.database().ref('log').on('value', function(snapshot) {
+                firebase.database().ref('log').orderByChild("timestamp").limitToLast(5).on('child_added', function(snapshot) {
                     if(snapshot.val() !== null)
                         drawLog(snapshot.val());
                 });
@@ -439,9 +439,7 @@
             });
         }
 
-        //rename
-
-        function drawLog(logs) {
+        function drawLogOld(logs) {
             $('#log-container').html('');
 
             console.log(users);
@@ -451,6 +449,16 @@
                     users[log.triggerer].name + (log.userid == 0 ? ' devolveu' : ' retirou') + ' o cartão ' + log.cardid + ' às ' + moment(new Date(log.timestamp)).format("HH:mm, DD/MM/YYYY")
                 ));
             });
+            
+        }
+        function drawLog(log) {
+            // $('#log-container').html('');
+
+            console.log(users);
+
+            $('#log-container').append($('<p />').text(
+                users[log.triggerer].name + (log.userid == 0 ? ' devolveu' : ' retirou') + ' o cartão ' + log.cardid + ' às ' + moment(new Date(log.timestamp)).format("HH:mm, DD/MM/YYYY")
+            ));
             
         }
 
