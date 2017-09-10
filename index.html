@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -206,8 +206,34 @@
         table-layout: fixed;
         margin-bottom: 20px;
     }
+    #logs-container {
+        background-color: #fff;
+        padding: 20px;
+    }
     table th {
         text-align: center;
+    }
+    table.dataTable thead th {
+        border-bottom: 1px solid #dddddd;
+    }
+    table.dataTable tfoot th {
+        border-top: 1px solid #dddddd;
+    }
+    table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {
+        border-top: 1px solid #dddddd;
+    }
+    table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {
+        border-top: 1px solid #dddddd;
+        border-right: 1px solid #dddddd;
+    }
+    table.dataTable.cell-border tbody tr td:first-child {
+        border-left: 1px solid #dddddd;
+    }
+    table.dataTable.no-footer {
+        border-bottom: 1px solid #dddddd;
+    }
+    .dataTables_wrapper.no-footer .dataTables_scrollBody {
+        border-bottom: 1px solid #dddddd;
     }
     .dataTables_wrapper .row {
         display: flex;
@@ -285,8 +311,8 @@
             <!-- end cards row -->
 
             <!-- log div -->
-            <div class="row">
-                <table id="myTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <div id="logs-container">
+                <table id="myTable" class="table diplay cell-border" cellspacing="0" width="100%">
                 </table>
             </div>
             <!-- end log div -->
@@ -312,8 +338,7 @@
     </script>
     <script src="moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     var users = {};
