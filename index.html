@@ -448,7 +448,7 @@
                         drawCards(snapshot.val(), user);
                 });
 
-                firebase.database().ref('log').orderByChild("timestamp").limitToLast(20).on('child_added', function(snapshot) {
+                firebase.database().ref('log').orderByChild("timestamp").limitToLast(50).on('child_added', function(snapshot) {
                     if(snapshot.val() !== null)
                         drawLog(snapshot.val());
                 });
