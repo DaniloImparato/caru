@@ -7,12 +7,8 @@
     <h3 align="center">
         <strong>COCARU</strong>
     </h3>
-    <br />
-    <h3 align="center">Controle de Cartões RU</h3>
-    <br />
-
   <p align="center">
-    Work in progress. A D3.js visualization tool for chromosome diagrams.
+    Controle de Cartões RU
     <br />
     <h2 align="center">
         <a href="https://daniloimparato.github.io/cocaru"><strong>Demo</strong></a>
