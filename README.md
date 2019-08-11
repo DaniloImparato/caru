@@ -16,14 +16,9 @@
     <br />
   </p>
 </p>
-
-# COCARU - Controle de Cartões RU
-
-COCARU controla a entrada e saída de cartões do RU pertencentes ao centro acadêmico. Documentação em breve.
-
 ## Intro
 
-Em breve
+COCARU controla a entrada e saída de cartões do RU pertencentes ao centro acadêmico. Documentação em breve.
 
 ### Pré-requisitos
 
