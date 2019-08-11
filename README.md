@@ -20,7 +20,7 @@
 
 COCARU controla a entrada e saída de cartões do RU pertencentes ao centro acadêmico. Documentação em breve.
 
-<img src="cocaru_screenshot.png" alt="COCARU" width="100%">
+<p align="center"><img src="cocaru_screenshot.png" alt="COCARU" height="100%" align="center"></p>
 
 ### Pré-requisitos
 
