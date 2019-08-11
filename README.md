@@ -20,6 +20,8 @@
 
 COCARU controla a entrada e saída de cartões do RU pertencentes ao centro acadêmico. Documentação em breve.
 
+<img src="cocaru_screenshot.png" alt="COCARU" width="100%">
+
 ### Pré-requisitos
 
 Projeto Firebase
