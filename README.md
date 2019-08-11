@@ -1,12 +1,12 @@
 <br />
 <p align="center">
   <a href="https://github.com/daniloimparato/cocaru">
-    <img src="favicon/favicon-160.png" alt="Logo" width="160">
+    <img src="favicon/favicon-144.png" alt="Logo" width="160">
   </a>
     <br />
-    <h2 align="center">
+    <h3 align="center">
         <strong>COCARU</strong>
-    </h2>
+    </h3>
     <br />
     <h3 align="center">Controle de Cartões RU</h3>
     <br />
